@@ -21,7 +21,7 @@ import {
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 import * as THREE from "three";
 
-// Tambahkan deklarasi agar elemen JSX dikenali
+// Extend meshline for JSX usage
 extend({ MeshLineGeometry, MeshLineMaterial });
 
 const cardGLB = "/assets/lanyard/card.glb";
