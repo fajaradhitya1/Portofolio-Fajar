@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame } from "@react-three/fiber";
 import {
@@ -19,13 +20,21 @@ import {
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 import * as THREE from "three";
+
+// Tambahkan deklarasi agar elemen JSX dikenali
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-// replace with your own imports, see the usage snippet for details
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      meshLineGeometry: any;
+      meshLineMaterial: any;
+    }
+  }
+}
+
 const cardGLB = "/assets/lanyard/card.glb";
 const lanyard = "/assets/lanyard/lanyard.png";
-
-extend({ MeshLineGeometry, MeshLineMaterial });
 
 interface LanyardProps {
   position?: [number, number, number];
@@ -94,7 +103,6 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
-  // Using "any" for refs since the exact types depend on Rapier's internals
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -206,44 +214,21 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   return (
     <>
       <group position={[0, 4, 0]}>
-        <RigidBody
-          ref={fixed}
-          {...segmentProps}
-          type={"fixed" as RigidBodyProps["type"]}
-        />
-        <RigidBody
-          position={[0.5, 0, 0]}
-          ref={j1}
-          {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
-        >
+        <RigidBody ref={fixed} {...segmentProps} type="fixed" />
+        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody
-          position={[1, 0, 0]}
-          ref={j2}
-          {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
-        >
+        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody
-          position={[1.5, 0, 0]}
-          ref={j3}
-          {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
-        >
+        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
           position={[2, 0, 0]}
           ref={card}
           {...segmentProps}
-          type={
-            dragged
-              ? ("kinematicPosition" as RigidBodyProps["type"])
-              : ("dynamic" as RigidBodyProps["type"])
-          }
+          type={dragged ? "kinematicPosition" : "dynamic"}
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
