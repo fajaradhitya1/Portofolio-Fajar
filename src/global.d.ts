@@ -1,14 +1,12 @@
-import { MeshLineGeometry, MeshLineMaterial } from "meshline";
-
-declare module "meshline" {
-  export { MeshLineGeometry, MeshLineMaterial };
-}
+// src/global.d.ts
+import { MeshLineMaterial, MeshLineGeometry } from "meshline";
+import { ThreeElements } from "@react-three/fiber";
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      meshLineGeometry: any;
-      meshLineMaterial: any;
+      meshLineGeometry: ThreeElements["mesh"];
+      meshLineMaterial: ThreeElements["mesh"];
     }
   }
 }
