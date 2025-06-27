@@ -1,12 +1,17 @@
 // src/global.d.ts
-import { MeshLineMaterial, MeshLineGeometry } from "meshline";
-import { ThreeElements } from "@react-three/fiber";
+import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      meshLineGeometry: ThreeElements["mesh"];
-      meshLineMaterial: ThreeElements["mesh"];
+      meshLineGeometry: ReactThreeFiber.Object3DNode<
+        MeshLineGeometry,
+        typeof MeshLineGeometry
+      >;
+      meshLineMaterial: ReactThreeFiber.Object3DNode<
+        MeshLineMaterial,
+        typeof MeshLineMaterial
+      >;
     }
   }
 }
